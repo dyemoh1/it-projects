@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/projects/{projectId} {
+      function owner() { return request.auth != null && request.auth.uid == userId; }
+      function valid() {
+        return request.resource.data.keys().hasAll(['title', 'description'])
+          && request.resource.data.keys().hasOnly(['title', 'description'])
+          && request.resource.data.title is string
+          && request.resource.data.title.size() > 0
+          && request.resource.data.title.size() <= 120
+          && request.resource.data.description is string
+          && request.resource.data.description.size() > 0
+          && request.resource.data.description.size() <= 2000;
+      }
+      allow read, delete: if owner();
+      allow create, update: if owner() && valid();
+    }
+  }
+}

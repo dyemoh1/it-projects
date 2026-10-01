@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Desk · David Yemoh</title>
+<style>body{font:16px/1.6 system-ui;background:#f0f4f1;color:#19382f;margin:0}main{max-width:780px;margin:60px auto;padding:24px}h1{font-size:42px;letter-spacing:-2px}button,input,textarea{font:inherit}button{background:#245443;color:white;border:0;padding:10px 18px;border-radius:7px;cursor:pointer}button:disabled{opacity:.5;cursor:default}input,textarea{display:block;box-sizing:border-box;width:100%;padding:12px;border:1px solid #bdcbbf;border-radius:6px;margin:5px 0 18px}article,form{background:white;padding:24px;border-radius:12px;margin:20px 0}article p{white-space:pre-wrap;overflow-wrap:anywhere}article button{margin-right:10px}label{font-weight:600}#status{min-height:2em}small{color:#52675b}</style></head>
+<body><main><small>DAVID YEMOH / APPLICATION LAB</small><h1>Project Desk</h1><p>A personal project notebook using Firebase Authentication and Firestore.</p><button id="login" disabled>Sign in with Google</button> <button id="logout" hidden>Sign out</button><p id="status" role="status">Loading configuration…</p>
+<form id="form" hidden><h2 id="heading">Add a project</h2><label for="title">Project name</label><input id="title" required maxlength="120"><label for="description">Description</label><textarea id="description" required maxlength="2000" rows="4"></textarea><button id="save">Save project</button> <button type="button" id="cancel" hidden>Cancel edit</button></form><section id="projects" aria-label="Your projects"></section></main>
+<script type="module">
+const $=id=>document.getElementById(id);
+let currentUser=null, editing=null, generation=0;
+function reset(){editing=null;$('form').reset();$('heading').textContent='Add a project';$('cancel').hidden=true;}
+try {
+ const {firebaseConfig}=await import('./config.js');
+ const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js');
+ const {getAuth,GoogleAuthProvider,onAuthStateChanged,signInWithPopup,signOut}=await import('https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js');
+ const {getFirestore,collection,doc,addDoc,getDocs,updateDoc,deleteDoc}=await import('https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js');
+ const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+ const projectCollection=uid=>collection(db,'users',uid,'projects');
+ async function load(){
+  const uid=currentUser?.uid, version=++generation;
+  if(!uid)return;
+  const snapshot=await getDocs(projectCollection(uid));
+  if(version!==generation||currentUser?.uid!==uid)return;
+  $('projects').replaceChildren();
+  snapshot.forEach(item=>{
+   const data=item.data(), card=document.createElement('article'), title=document.createElement('h2'), description=document.createElement('p');
+   title.textContent=data.title;description.textContent=data.description;card.append(title,description);
+   const edit=document.createElement('button');edit.textContent='Edit';edit.onclick=()=>{editing=item.id;$('title').value=data.title;$('description').value=data.description;$('heading').textContent='Edit project';$('cancel').hidden=false;$('title').focus();};
+   const remove=document.createElement('button');remove.textContent='Delete';remove.onclick=async()=>{
+    if(currentUser?.uid!==uid||!confirm('Delete this project?'))return;
+    remove.disabled=true;
+    try{await deleteDoc(doc(db,'users',uid,'projects',item.id));if(editing===item.id)reset();await load();}catch{$('status').textContent='Could not delete. Check your connection and database rules.';remove.disabled=false;}
+   };
+   card.append(edit,remove);$('projects').append(card);
+  });
+  $('status').textContent=snapshot.empty?'No projects yet. Add your first one.':`${snapshot.size} project(s)`;
+ }
+ $('login').disabled=false;
+ $('login').onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());}catch{$('status').textContent='Sign-in did not complete. Try again.';}};
+ $('logout').onclick=async()=>{try{await signOut(auth);}catch{$('status').textContent='Sign-out failed. Try again.';}};
+ $('cancel').onclick=reset;
+ onAuthStateChanged(auth,user=>{currentUser=user;generation++;reset();$('projects').replaceChildren();$('login').hidden=!!user;$('logout').hidden=!user;$('form').hidden=!user;$('status').textContent=user?'Loading your projects…':'Sign in to manage your projects.';if(user)load().catch(()=>{$('status').textContent='Could not load projects. Check your connection and database rules.';});});
+ $('form').onsubmit=async event=>{
+  event.preventDefault();const uid=currentUser?.uid;if(!uid)return;
+  const data={title:$('title').value.trim(),description:$('description').value.trim()};
+  if(!data.title||!data.description){$('status').textContent='Enter a name and description.';return;}
+  $('save').disabled=true;
+  try{if(editing)await updateDoc(doc(db,'users',uid,'projects',editing),data);else await addDoc(projectCollection(uid),data);reset();await load();}catch{$('status').textContent='Could not save. Check your connection and database rules.';}finally{$('save').disabled=false;}
+ };
+} catch { $('status').textContent='Setup required: copy config.example.js to config.js and follow FIREBASE.md. No cloud connection is active.'; }
+</script></body></html>

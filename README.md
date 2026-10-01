@@ -1,45 +1,33 @@
 # David Yemoh — IT Project Lab
 
-Practical work in networking, application development, and troubleshooting. I'm a Computer Information Technology student at BYU–Idaho, graduating in 2028, with Security+ and eJPT certifications.
+Computer Information Technology student at BYU–Idaho · Class of 2028 · Security+ · eJPT
 
-## Projects
+Three projects exploring application development, networking, and troubleshooting.
 
-| Project | Demonstrates | Status |
-| --- | --- | --- |
-| [Cisco home lab](HOME-LAB.md) | VLANs, switch management, connectivity verification | Existing lab documented; fresh screenshots pending |
-| [Campus room reservations](room_reservation.py) | Python, SQLite, validation, conflict handling, automated tests | Local CLI; tested with synthetic bookings |
-| [Firebase project manager](FIREBASE.md) | Google sign-in, Firestore CRUD, ownership rules, safe text rendering | Responsive local demo tested; cloud integration requires setup and verification |
+## Room reservations
 
-## Roomly reservation interface
+![Roomly dashboard](room-reservations/images/preview.png)
 
-[Open the design](reservations.html) · [Setup and limitations](RESERVATIONS-WEB.md)
+Python and SQLite booking logic with automated tests, plus a responsive web demo. The browser demo and Python database are currently separate.
 
-A responsive room-finding dashboard with date, time, capacity and search filters, booking confirmation, overlap prevention, and saved reservations. Run a local web server and open reservations.html. Bookings are stored in this browser; this prototype is separate from the Python SQLite app and does not book real rooms.
+[Explore the project and run it locally](room-reservations/README.md)
 
-## Try the Python project
+## Firebase Project Desk
 
-Python 3.10 or later; no third-party packages required.
+![Project Desk dashboard](firebase-project-desk/images/preview.png)
 
-```sh
-python -m unittest -v test_room_reservation.py
-python room_reservation.py rooms
-python room_reservation.py reserve --room "STC 340" --day 2027-01-15 --start 10:00 --end 11:00 --owner Demo
-python room_reservation.py list
-python room_reservation.py cancel 1 --owner Demo
-```
+A searchable project notebook with a tested local demo and Firebase integration prepared for configuration and live testing.
 
-Bookings persist in a local SQLite database. Dates and times are validated; overlapping bookings for the same room and day are rejected, while adjacent bookings are allowed. Cancellation checks the booking name. **Names are not authentication**: this is a local learning tool, not a multi-user production booking service.
+[Explore the project and setup guide](firebase-project-desk/README.md)
 
-## Project history and attribution
+## Networking lab
 
-The Firebase and Python projects originated in coursework with a mixture of personal work and starter material. Exact historical authorship of individual sections is not established; I do not claim all original code as independently authored.
+Cisco switch management, VLAN configuration, and connectivity checks documented from a home lab. Fresh screenshots are pending.
 
-This portfolio edition was prepared with AI assistance. The Python CLI was rewritten from the original in-memory booking concept to add SQLite persistence, date/time validation, overlap checks, and standard-library tests. Firebase changes replace unsafe HTML interpolation, organize CRUD handlers, and provide owner-scoped rules and setup instructions. These new improvements should be understood and practiced before presenting them as independently implemented skills.
+[Read the lab documentation](networking-lab/README.md)
 
-## Verification
+## Project history
 
-Run the included Python tests to reproduce the local checks. Firebase authentication, deployed Firestore rules, and live cloud CRUD have not been verified. No production data or credentials are included.
+These projects include coursework, starter material, personal contributions, and AI-assisted improvements. See [project history and attribution](PROJECT-HISTORY.md) for details.
 
 [GitHub profile](https://github.com/dyemoh1) · [LinkedIn](https://www.linkedin.com/in/david-yemoh-479b7a281/)
-
-

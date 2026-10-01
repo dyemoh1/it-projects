@@ -8,7 +8,7 @@ Three projects exploring application development, networking, and troubleshootin
 
 ![Roomly dashboard](room-reservations/images/preview.png)
 
-Python and SQLite booking logic with automated tests, plus a responsive web demo. The browser demo and Python database are currently separate.
+Python and SQLite booking logic with automated tests, plus a responsive web demo. The website now connects to the Python server and SQLite database locally.
 
 [Explore the project and run it locally](room-reservations/README.md)
 
@@ -31,3 +31,4 @@ Cisco switch management, VLAN configuration, and connectivity checks documented 
 These projects include coursework, starter material, personal contributions, and AI-assisted improvements. See [project history and attribution](PROJECT-HISTORY.md) for details.
 
 [GitHub profile](https://github.com/dyemoh1) · [LinkedIn](https://www.linkedin.com/in/david-yemoh-479b7a281/)
+

@@ -8,7 +8,7 @@ Practical work in networking, application development, and troubleshooting. I'm 
 | --- | --- | --- |
 | [Cisco home lab](HOME-LAB.md) | VLANs, switch management, connectivity verification | Existing lab documented; fresh screenshots pending |
 | [Campus room reservations](room_reservation.py) | Python, SQLite, validation, conflict handling, automated tests | Local CLI; tested with synthetic bookings |
-| [Firebase project manager](FIREBASE.md) | Google sign-in, Firestore CRUD, ownership rules, safe text rendering | Source prepared; cloud integration requires setup and verification |
+| [Firebase project manager](FIREBASE.md) | Google sign-in, Firestore CRUD, ownership rules, safe text rendering | Responsive local demo tested; cloud integration requires setup and verification |
 
 ## Roomly reservation interface
 
@@ -41,4 +41,5 @@ This portfolio edition was prepared with AI assistance. The Python CLI was rewri
 Run the included Python tests to reproduce the local checks. Firebase authentication, deployed Firestore rules, and live cloud CRUD have not been verified. No production data or credentials are included.
 
 [GitHub profile](https://github.com/dyemoh1) · [LinkedIn](https://www.linkedin.com/in/david-yemoh-479b7a281/)
+
 

@@ -10,6 +10,12 @@ Practical work in networking, application development, and troubleshooting. I'm 
 | [Campus room reservations](room_reservation.py) | Python, SQLite, validation, conflict handling, automated tests | Local CLI; tested with synthetic bookings |
 | [Firebase project manager](FIREBASE.md) | Google sign-in, Firestore CRUD, ownership rules, safe text rendering | Source prepared; cloud integration requires setup and verification |
 
+## Roomly reservation interface
+
+[Open the design](reservations.html) · [Setup and limitations](RESERVATIONS-WEB.md)
+
+A responsive room-finding dashboard with date, time, capacity and search filters, booking confirmation, overlap prevention, and saved reservations. Run a local web server and open reservations.html. Bookings are stored in this browser; this prototype is separate from the Python SQLite app and does not book real rooms.
+
 ## Try the Python project
 
 Python 3.10 or later; no third-party packages required.
@@ -35,3 +41,4 @@ This portfolio edition was prepared with AI assistance. The Python CLI was rewri
 Run the included Python tests to reproduce the local checks. Firebase authentication, deployed Firestore rules, and live cloud CRUD have not been verified. No production data or credentials are included.
 
 [GitHub profile](https://github.com/dyemoh1) · [LinkedIn](https://www.linkedin.com/in/david-yemoh-479b7a281/)
+
